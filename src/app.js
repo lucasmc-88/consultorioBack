@@ -1,9 +1,11 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const connectDB = require('./db/mongoose');  // Ruta al archivo db.js
 const mongoose = require('mongoose')
 
 
 const specialtyRoute = require('./routes/specialties-routes');
+const doctorRoute = require('./routes/doctors-routes');
 
 
 const app = express();
@@ -17,17 +19,8 @@ app.use((req, res, next) => {
 });
 
 app.use('/api', specialtyRoute);
+app.use('/api', doctorRoute);
 
-mongoose
-    .connect(
-        //`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.v4ofevg.mongodb.net/${process.env.DB_NAME}`
-        `mongodb+srv://crudVortex:akademyVortex@cluster0.v4ofevg.mongodb.net/consultorio`
-    )
-    .then(() => {
-        app.listen(3000);
-        console.log('Conectado');
-
-    })
-    .catch((err) =>{
-        console.log('Error conexion');
-    });
+connectDB().then(() => {
+    app.listen(3000);
+});
