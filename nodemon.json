@@ -1,0 +1,7 @@
+{
+    "env": {
+        "DB_USER":"crudVortex",
+        "DB_PASSWORD":"akademyVortex",
+        "DB_NAME":"consultorio"
+    }
+}
