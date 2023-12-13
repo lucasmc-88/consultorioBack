@@ -2,6 +2,7 @@
     "env": {
         "DB_USER":"crudVortex",
         "DB_PASSWORD":"akademyVortex",
-        "DB_NAME":"consultorio"
+        "DB_NAME":"consultorio",
+        "JWT_SECRET":"thisismynewcourse"
     }
 }

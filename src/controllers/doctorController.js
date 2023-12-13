@@ -14,24 +14,30 @@ const getDoctor = async (req, res, next) => {
 
 const createDoctor = async (req, res, next) => {
     try {
+        // Verifica si el usuario tiene el rol de administrador
+        if (req.user.role !== 'admin') {
+            return res.status(403).json({ error: 'No tienes permisos para realizar esta acción' });
+        }
+
         const doctorsToAdd = req.body;
 
         // Valida que req.body sea un array de doctores
         if (!Array.isArray(doctorsToAdd)) {
-            res.status(400).json("La solicitud debe ser un arreglo de doctores");
+            return res.status(400).json("La solicitud debe ser un arreglo de doctores");
         }
 
-        // Utiliza el método `insertMany` para crear varios doctores a la coleccion
-        const createddoctors = await Product.insertMany(doctorsToAdd);
+        // Utiliza el método `insertMany` para crear varios doctores a la colección
+        const createddoctors = await Doctor.insertMany(doctorsToAdd);
 
         res.status(201).json({ createddoctors });
     } catch (err) { 
         const error = new HttpError(
             'Error al crear los doctores'
         );
-        return next(error)
+        return next(error);
     }
 };
+
 
 
 exports.getDoctor = getDoctor;

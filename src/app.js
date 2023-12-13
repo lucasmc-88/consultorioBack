@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 
 const specialtyRoute = require('./routes/specialties-routes');
 const doctorRoute = require('./routes/doctors-routes');
+const userRoute = require('./routes/users-routes');
 
 
 const app = express();
@@ -20,6 +21,7 @@ app.use((req, res, next) => {
 
 app.use('/api', specialtyRoute);
 app.use('/api', doctorRoute);
+app.use('/api', userRoute);
 
 connectDB().then(() => {
     app.listen(3000);
