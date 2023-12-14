@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
 const appointmentSchema = new mongoose.Schema({
-    doctor: { type: mongoose.Schema.Types.ObjectId, ref: 'Doctor', required: true },
-    patient: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    date: { type: Date, required: true },
-    // Otros campos relacionados con el turno
+    date: { type: String, required: true },
+    time: { type: String, required: true },
+    doctorId: { type: mongoose.Schema.Types.ObjectId, ref: 'Doctor', required: true },
+    status: { type: String, enum: ['disponible', 'reservado', 'cancelado'], default: 'disponible' },
+    patient: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Opcional: solo si aplica
 });
 
 const Appointment = mongoose.model('Appointment', appointmentSchema);

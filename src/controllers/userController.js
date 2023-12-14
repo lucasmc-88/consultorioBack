@@ -2,16 +2,16 @@ const User = require('../models/user');
 
 const registerUser = async (req, res, next) => {
     try {
-        const { userName, email, password,role } = req.body;
+        const { name, email, password,role } = req.body;
 
         // Verificar si el usuario o el correo electrónico ya existen
-        const existingUser = await User.findOne({ $or: [{ userName }, { email }] });
+        const existingUser = await User.findOne({ $or: [{ name }, { email }] });
         if (existingUser) {
             return res.status(400).json({ error: 'El usuario o el correo electrónico ya existen' });
         }
 
         // Crear un nuevo usuario
-        const newUser = new User({ userName, email, password, role });
+        const newUser = new User({ name, email, password, role });
 
         // Generar un token JWT
         const token = await newUser.generateAuthToken();
