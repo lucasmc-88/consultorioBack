@@ -5,7 +5,7 @@ const getSpecialty = async (req, res, next) => {
 
     try {
         specialty = await Specialty.find();
-        res.json(specialty);  // Envía el resultado en la respuesta
+        res.json(specialty); 
     } catch (error) {
         console.error(error);
         res.status(500).send('Error al recuperar las especialidades');  // Envía una respuesta de error
