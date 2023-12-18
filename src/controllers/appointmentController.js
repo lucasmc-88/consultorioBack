@@ -1,6 +1,7 @@
 const Appointment = require('../models/appointment');
 const Doctor = require('../models/doctor');
-const Specialty = require('../models/specialty');
+const User = require('../models/user');
+const Appointment = require('../models/appointment');
 
 const createAppoinment =  async (req, res) => {
     const { date, time, doctorId,status } = req.body;
@@ -106,7 +107,64 @@ const getAppoinmentByDoctorId = async (req, res, next) => {
         res.status(500).json({ error: 'Error al obtener los turnos por médico' });
     }
 }
+
+const reserveAppointment = async (req, res, next) => {
+     try {
+        const { aId } = req.params;
+        const { userId } = req.user;
+
+        const appointment = await Appointment.findById(aId);
+
+        if (!appointment) {
+            return res.status(404).json({ error: 'Turno no encontrado' });
+        }
+
+
+        if (appointment.status !== 'disponible') {
+            return res.status(400).json({ error: 'El turno no está disponible para reservar' });
+        }
+
+        appointment.status = 'reservado';
+        appointment.patient = userId;
+        await appointment.save();
+
+        res.json({ message: 'Turno reservado exitosamente', appointment });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al reservar el turno' });
+    }
+}
+
+const cancelAppointment = async (req, res, next) => {
+    try {
+        const { appointmentId } = req.params;
+        const { userId } = req.user; 
+
+        
+        const appointment = await Appointment.findById(appointmentId);
+
+        if (!appointment) {
+            return res.status(404).json({ error: 'Turno no encontrado' });
+        }
+
+
+        if (appointment.status !== 'reservado' || appointment.patient.toString() !== userId) {
+            return res.status(400).json({ error: 'No puedes cancelar este turno' });
+        }
+
+        appointment.status = 'cancelado';
+        appointment.patient = undefined;
+        await appointment.save();
+
+        res.json({ message: 'Turno cancelado exitosamente', appointment });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al cancelar el turno' });
+    }
+}
 exports.createAppoinment = createAppoinment
 exports.updateAppoinment = updateAppoinment
 exports.deleteAppoinment = deleteAppoinment
 exports.getAppoinmentByDoctorId = getAppoinmentByDoctorId
+exports.reserveAppointment = reserveAppointment
+exports.cancelAppointment = cancelAppointment
