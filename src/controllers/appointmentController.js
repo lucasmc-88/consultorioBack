@@ -1,10 +1,10 @@
 const Appointment = require('../models/appointment');
 const Doctor = require('../models/doctor');
 const User = require('../models/user');
-const Appointment = require('../models/appointment');
+
 
 const createAppoinment =  async (req, res) => {
-    const { date, time, doctorId,status } = req.body;
+    const { date, time, doctorId,status,patient } = req.body;
     try {
         
         if (req.user.role !== 'admin') {
@@ -18,10 +18,11 @@ const createAppoinment =  async (req, res) => {
         }
 
         const newAppointment = new Appointment({
-            date: new Date(date + ' ' + time),
+            date: new Date(date),
             time,
             doctorId,
             status,
+            patient,
         });
 
         await newAppointment.save();
@@ -111,7 +112,8 @@ const getAppoinmentByDoctorId = async (req, res, next) => {
 const reserveAppointment = async (req, res, next) => {
      try {
         const { aId } = req.params;
-        const { userId } = req.user;
+        const { userId } = req.user._id;
+        console.log(userId + '*************')
 
         const appointment = await Appointment.findById(aId);
 
@@ -125,7 +127,7 @@ const reserveAppointment = async (req, res, next) => {
         }
 
         appointment.status = 'reservado';
-        appointment.patient = userId;
+        appointment.patient =userId;
         await appointment.save();
 
         res.json({ message: 'Turno reservado exitosamente', appointment });

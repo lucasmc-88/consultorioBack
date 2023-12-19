@@ -3,6 +3,8 @@
         "DB_USER":"crudVortex",
         "DB_PASSWORD":"akademyVortex",
         "DB_NAME":"consultorio",
-        "JWT_SECRET":"thisismynewcourse"
+        "JWT_SECRET":"thisismynewcourse",
+        "EMAIL_USER":"lucas_eas@hotmail.com",
+        "EMAIL_PASSWORD": "Hecafivi2020"
     }
 }

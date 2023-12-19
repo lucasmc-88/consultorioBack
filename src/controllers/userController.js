@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const nodemailer = require('nodemailer');
 
 const registerUser = async (req, res, next) => {
     try {
@@ -48,5 +49,51 @@ const loginUser = async (req, res, next) => {
     }
 }
 
+const generateEmail = async (req, res, next) => {
+    try {
+        const { email } = req.body;
+
+        // Verificar si el usuario con el correo electrónico existe
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        // Generar y almacenar un token de recuperación de contraseña en el usuario
+        /*const recoveryToken = generateRecoveryToken(user._id);
+
+        user.recoveryToken = recoveryToken;
+        await user.save();*/
+
+        // Configurar nodemailer para enviar el correo electrónico
+        const transporter = nodemailer.createTransport({
+            service: 'OUTLOOK',
+            auth: {
+                user: process.env.EMAIL_USER, // Coloca aquí tu dirección de correo electrónico
+                pass: 'Hecafivi2020',//process.env.EMAIL_PASSWORD, // Coloca aquí tu contraseña
+            },
+        });
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to:process.env.EMAIL_USER, // user.email,
+            subject: 'Recuperación de Contraseña',
+            text: `Para recuperar tu contraseña, haz clic en el siguiente enlace: http://tu-aplicacion.com/reset-password/`,
+
+            //text: `Para recuperar tu contraseña, haz clic en el siguiente enlace: http://tu-aplicacion.com/reset-password/${recoveryToken}`,
+        };
+
+        // Enviar el correo electrónico
+        await transporter.sendMail(mailOptions);
+
+        res.json({ message: 'Correo electrónico de recuperación enviado exitosamente' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al solicitar recuperación de contraseña' });
+    }
+}
+
 exports.registerUser = registerUser;
 exports.loginUser = loginUser;
+exports.generateEmail = generateEmail
