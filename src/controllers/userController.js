@@ -68,10 +68,10 @@ const generateEmail = async (req, res, next) => {
 
         // Configurar nodemailer para enviar el correo electrónico
         const transporter = nodemailer.createTransport({
-            service: 'OUTLOOK',
+            service: 'gmail',
             auth: {
                 user: process.env.EMAIL_USER, // Coloca aquí tu dirección de correo electrónico
-                pass: 'Hecafivi2020',//process.env.EMAIL_PASSWORD, // Coloca aquí tu contraseña
+                pass: process.env.EMAIL_PASSWORD, // Coloca aquí tu contraseña
             },
         });
 
