@@ -2,10 +2,16 @@ const Doctor = require('../models/doctor');
 const Appointment = require('../models/appointment');
 
 const getDoctor = async (req, res, next) => {
-    let doctor;
+    //let doctor;
 
     try {
-        doctor = await Doctor.find().populate('specialtyId');
+        const page = parseInt(req.query.page) || 1; 
+        const limit = parseInt(req.query.limit) || 10;
+
+        const startIndex = (page - 1) * limit;
+
+        const doctor = await Doctor.find().populate('specialtyId').skip(startIndex)
+        .limit(limit);
         res.json(doctor);  
     } catch (error) {
         console.error(error);
