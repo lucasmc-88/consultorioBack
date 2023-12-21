@@ -17,8 +17,11 @@ const createAppoinment = async (req, res) => {
             return res.status(404).json({ error: 'Médico no encontrado' });
         }
 
+        const newDate = new Date(date);
+        const formattedDate = newDate.toISOString().split('T')[0];
+
         const newAppointment = new Appointment({
-            date: new Date(date),
+            date: formattedDate,
             time,
             doctorId,
             status,

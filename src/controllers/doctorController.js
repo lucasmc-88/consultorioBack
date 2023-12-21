@@ -37,10 +37,8 @@ const createDoctor = async (req, res, next) => {
 
         res.status(201).json({ createddoctors });
     } catch (err) { 
-        const error = new HttpError(
-            'Error al crear los doctores'
-        );
-        return next(error);
+        res.status(500).json({ error: 'Error al crear el médico' });
+
     }
 };
 
