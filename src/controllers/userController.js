@@ -41,11 +41,23 @@ const loginUser = async (req, res, next) => {
 
         // Generar un token JWT
         const token = await user.generateAuthToken();
-
-        res.json({ user, token });
+        console.log('ingreso correctamente');
+        res.json({ message: 'ingreso correcto', user, token });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error al iniciar sesión' });
+    }
+}
+const logout = async (req, res, next) => {
+    try {
+        req.user.tokens = req.user.tokens.filter((token) => {
+            return token.token !== req.token
+        })
+        await req.user.save()
+
+        res.send()
+    } catch (e) {
+        res.status(500).send()
     }
 }
 
@@ -124,5 +136,6 @@ const resetPassword = async (req, res, next) => {
 
 exports.registerUser = registerUser;
 exports.loginUser = loginUser;
+exports.logout = logout
 exports.generateEmail = generateEmail
 exports.resetPassword = resetPassword

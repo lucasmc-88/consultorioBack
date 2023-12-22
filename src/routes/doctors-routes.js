@@ -5,6 +5,8 @@ const { check } = require("express-validator");
 const doctorController = require('../controllers/doctorController')
 const auth = require('../middleware/authMiddleware')
 
+//router.get('/doctor', doctorController.getDoctor);
+//router.get('/doctor/detail/:dId', doctorController.detailDoctor);
 router.get('/doctor', auth, doctorController.getDoctor);
 router.get('/doctor/detail/:dId', auth, doctorController.detailDoctor);
 router.post('/doctor/create', auth,

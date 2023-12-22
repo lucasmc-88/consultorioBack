@@ -21,7 +21,7 @@ const createAppoinment = async (req, res) => {
         const formattedDate = newDate.toISOString().split('T')[0];
 
         const newAppointment = new Appointment({
-            date: formattedDate,
+            date: (formattedDate + ' ' + time ),
             time,
             doctorId,
             status,
