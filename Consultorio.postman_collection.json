@@ -1,0 +1,528 @@
+{
+	"info": {
+		"_postman_id": "f95c38fb-8b4c-44fc-bb0b-d2cf22a9bc49",
+		"name": "Consultorio",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30893398"
+	},
+	"item": [
+		{
+			"name": "GetSpecialty",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/specialty?limit=1&page=1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"specialty"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "1"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetDoctor",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{url}}/doctor",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"doctor"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "registerUsers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response === 200) {\r",
+							"    pm.environment.set('authToken', pm.response.json().token)\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Jorge\",\r\n    \"email\": \"jorge@example.com\",\r\n    \"password\": \"123456\",\r\n    \"role\": \"admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/user/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LoginUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 200) {\r",
+							"    pm.environment.set('auth', pm.response.json().token)\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"maxi@example.com\",\r\n    \"password\": \"123456\"\r\n}\r\n\r\n//nuevaContraseña123",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/user/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateDoctor",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTdhZWQwOGYwZTFlZmEwMmU3YzIwODUiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MDI1NTQ4ODh9.KqHT4597MCoqOFoGbCubafkqzvWmm3KsYdFToWxXASg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"name\": \"Legname\",\r\n        \"specialtyId\":\"65787551d4b3f982b5207d7c\",\r\n        \"gender\": \"F\"\r\n        \r\n    },\r\n    {\r\n        \"name\": \"Martin\",\r\n        \"specialtyId\":\"65787551d4b3f982b5207d7c\",\r\n        \"gender\": \"M\"\r\n        \r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/doctor/create",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"doctor",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateDoctor",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTdhZWQwOGYwZTFlZmEwMmU3YzIwODUiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MDI1NTQ4ODh9.KqHT4597MCoqOFoGbCubafkqzvWmm3KsYdFToWxXASg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "   {\r\n        \"name\": \"Rosales\",\r\n        \"gender\": \"f\",\r\n        \"specialtyId\":\"65787551d4b3f982b5207d7c\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/doctor/update/657890a718cdcc8c014f68b9",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"doctor",
+						"update",
+						"657890a718cdcc8c014f68b9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DetailsDoctor",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/doctor/detail/657890a718cdcc8c014f68b9",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"doctor",
+						"detail",
+						"657890a718cdcc8c014f68b9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateAppointment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"date\": \"2025-02-02\",\r\n    \"time\": \"6:30 AM\",\r\n    \"doctorId\": \"657890a718cdcc8c014f68b9\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/appointment/create",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"appointment",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateAppointment",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"reservado\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/appointment/update/657b17284fec3c9b684bc428",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"appointment",
+						"update",
+						"657b17284fec3c9b684bc428"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteAppointment",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/appointment/delete/657c8cf33653130a0f160dfa",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"appointment",
+						"delete",
+						"657c8cf33653130a0f160dfa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAppoinmentByDoctorId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/appointment/doctorId/657890a718cdcc8c014f68b9?limit=1&page=1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"appointment",
+						"doctorId",
+						"657890a718cdcc8c014f68b9"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "1"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SendEmail",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"lucas@example.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/user/email-reset",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user",
+						"email-reset"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reserveAppointment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/appointments/reserve/65832455f069fe267e855c7d",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"appointments",
+						"reserve",
+						"65832455f069fe267e855c7d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CancelAppointment",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/appointments/cancel/65832455f069fe267e855c7d",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"appointments",
+						"cancel",
+						"65832455f069fe267e855c7d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "resetPassword",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"lucas@example.com\",\r\n    \"recoveryToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTdiMWE4NzRmZWMzYzliNjg0YmM0MzEiLCJyb2xlIjoicGF0aWVudCIsImlhdCI6MTcwMzA3OTU3NX0.klnLKk0S--2COZYoglHsiXna-TjDGSek_h8xFWBbl5M\",\r\n    \"newPassword\": \"nuevaContraseña1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/user/resetpassword",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user",
+						"resetpassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AppointmentsPatient",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/appointments/patient?limit=1&page=2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"appointments",
+						"patient"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "1"
+						},
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCancel",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/appointments/cancel",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"appointments",
+						"cancel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LogoutUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/user/logout",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{auth}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
