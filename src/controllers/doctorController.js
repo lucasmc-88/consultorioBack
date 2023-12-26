@@ -2,22 +2,28 @@ const Doctor = require('../models/doctor');
 const Appointment = require('../models/appointment');
 
 const getDoctor = async (req, res, next) => {
-    //let doctor;
-
     try {
         const page = parseInt(req.query.page) || 1; 
         const limit = parseInt(req.query.limit) || 10;
+        const genderFilter = req.query.gender;
 
         const startIndex = (page - 1) * limit;
 
-        const doctor = await Doctor.find().populate('specialtyId').skip(startIndex)
-        .limit(limit);
-        res.json(doctor);  
+        let query = {};
+
+        if (genderFilter && ['f', 'm'].includes(genderFilter.toLowerCase())) {
+            query.gender = genderFilter.toLowerCase();
+        }
+
+        const doctors = await Doctor.find(query).populate('specialtyId').skip(startIndex).limit(limit);
+
+        res.json(doctors);
     } catch (error) {
         console.error(error);
-        res.status(500).send('Error al recuperar los doctores'); 
+        res.status(500).send('Error al recuperar los doctores');
     }
 };
+
 
 const createDoctor = async (req, res, next) => {
     try {

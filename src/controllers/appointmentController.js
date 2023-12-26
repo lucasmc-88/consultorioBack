@@ -52,7 +52,6 @@ const updateAppoinment = async (req, res, next) => {
             return res.status(404).json({ error: 'Turno no encontrado' });
         }
 
-        // Actualizar el estado del turno
         appointment.status = status;
         await appointment.save();
 
@@ -151,8 +150,12 @@ const getAppoinmentByPatient = async (req, res, next) => {
 
 const getCancelByPatient = async (req, res, next) => {
     try {
-        const  userId  = req.user._id; // Obtener el ID del usuario desde el token JWT
+        const  userId  = req.user._id;
         console.log(userId + '****');
+        
+        if (req.user.role !== 'patient') {
+            return res.status(403).json({ error: 'No tienes permisos para realizar esta acción' });
+        }
 
         const page = parseInt(req.query.page) || 1; 
         const limit = parseInt(req.query.limit) || 10;

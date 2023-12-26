@@ -11,9 +11,9 @@ const doctorSchema = new mongoose.Schema({
                 // Verifica que 'v' sea 'f' o 'm'
                 return /^[fm]$/i.test(v);
             },
-            message: props => `${props.value} no es una letra válida para el sexo. Debe ser 'f' o 'm'.`
+            message: props => `${props.value} no es una letra válida para el genero. Debe ser 'f' o 'm'.`
         },
-        set: value => value.toLowerCase()  // Convierte a minúsculas
+        set: value => value.toLowerCase() 
     },
 });
 

@@ -55,7 +55,7 @@ const logout = async (req, res, next) => {
         })
         await req.user.save()
 
-        res.send()
+        res.send({ message: 'Desconexión exitosa' });
     } catch (e) {
         res.status(500).send()
     }
@@ -70,8 +70,6 @@ const generateEmail = async (req, res, next) => {
         if (!user) {
             return res.status(404).json({ error: 'Usuario no encontrado' });
         }
-
-        // Generar y almacenar un nuevo token de recuperación de contraseña en el usuario
         const recoveryToken = await user.generateAuthToken();
         console.log(recoveryToken);
 
@@ -91,7 +89,7 @@ const generateEmail = async (req, res, next) => {
             from: process.env.EMAIL_USER,
             to: process.env.EMAIL_USER, // user.email,
             subject: 'Recuperación de Contraseña',
-            text: `Para recuperar tu contraseña, haz clic en el siguiente enlace:  http://tu-aplicacion.com/reset-password/
+            text: `Para recuperar tu contraseña, haz clic en el siguiente enlace:  http://localhost:3000/api/user/resetpassword
                     Token de recuperación: ${recoveryToken}`,
         };
 
